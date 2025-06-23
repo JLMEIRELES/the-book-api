@@ -37,7 +37,7 @@ public class JwtService {
         return Jwts.builder()
                 .claims(claims)
                 .issuedAt(Date.from(actualDate.toInstant()))
-                .expiration(Date.from(actualDate.plusMinutes(15).toInstant()))
+                .expiration(Date.from(actualDate.plusMinutes(60).toInstant()))
                 .signWith(Keys.hmacShaKeyFor(decodedKey))
                 .compact();
     }

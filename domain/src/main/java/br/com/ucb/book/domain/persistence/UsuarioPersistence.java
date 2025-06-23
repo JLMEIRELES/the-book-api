@@ -6,4 +6,6 @@ public interface UsuarioPersistence {
 
     Usuario criar(Usuario usuario);
 
+    Usuario findById(Long id);
+
 }
