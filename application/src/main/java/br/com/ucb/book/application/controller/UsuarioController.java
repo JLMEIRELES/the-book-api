@@ -1,0 +1,36 @@
+package br.com.ucb.book.application.controller;
+
+import br.com.ucb.book.application.dto.request.LoginRequest;
+import br.com.ucb.book.application.dto.request.UsuarioRequest;
+import br.com.ucb.book.application.dto.response.TokenResponse;
+import br.com.ucb.book.application.mapper.UsuarioDtoMapper;
+import br.com.ucb.book.domain.model.Usuario;
+import br.com.ucb.book.domain.service.UsuarioService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/permitted")
+@RequiredArgsConstructor
+public class UsuarioController {
+
+    private final UsuarioService usuarioService;
+
+    private final UsuarioDtoMapper usuarioDtoMapper;
+
+    @PostMapping("/cadastro")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void cadastrar(@Valid @RequestBody UsuarioRequest usuarioRequest) {
+        Usuario usuario = usuarioDtoMapper.toModel(usuarioRequest);
+        usuarioService.criar(usuario);
+    }
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public TokenResponse login(@Valid @RequestBody LoginRequest loginRequest) {
+        Usuario usuario = usuarioDtoMapper.toModel(loginRequest);
+        return usuarioDtoMapper.toTokenResponse(usuarioService.login(usuario));
+    }
+}

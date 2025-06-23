@@ -1,0 +1,49 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: the-book-api
+
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+          non_contextual_creation: 1
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/the-book-api_db
+    username: postgres
+    password: postgres
+    hikari:
+      connection-timeout: 2000
+      leak-detection-threshold: 6000
+      maximum-pool-size: 50
+      minimum-idle: 10
+      pool-name: TheBookRWPool
+      schema: public
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          secret-key: sZYdRAQgSmSIssP2fjrkT8mU4fvXPNTSBhBeqkievVg=
+          jwt-algorithms: HS256
+
+info:
+  project:
+    application: ${spring.application.name}
+    version: @project.version@
+    javaVendor: ${java.runtime.name}
+    javaVersion: ${java.runtime.version}
+
+logging:
+  pattern:
+    console: "[%-5level] [${${spring:spring.application.name}}] [%t] [%date{ISO8601}] [%c{1}:%M:%L] [%X{traceId},%X{spanId}] %msg %n"
+  level:
+    root: INFO
+    br:
+      com:
+        meireles: DEBUG
