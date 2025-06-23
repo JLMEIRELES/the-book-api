@@ -3,6 +3,7 @@ package br.com.ucb.book.application.mapper;
 import br.com.ucb.book.application.dto.request.LoginRequest;
 import br.com.ucb.book.application.dto.request.UsuarioRequest;
 import br.com.ucb.book.application.dto.response.TokenResponse;
+import br.com.ucb.book.application.dto.response.UsuarioResponse;
 import br.com.ucb.book.domain.model.TipoPessoa;
 import br.com.ucb.book.domain.model.Usuario;
 import org.mapstruct.BeforeMapping;
@@ -21,6 +22,8 @@ public interface UsuarioDtoMapper {
 
     @Mapping(target = "accessToken", source = "token")
     TokenResponse toTokenResponse(String token);
+
+    UsuarioResponse toResponse(Usuario usuario);
 
     @Named("tipoPessoa")
     default TipoPessoa tipoPessoa(String documento) {
