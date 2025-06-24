@@ -1,5 +1,6 @@
 package br.com.ucb.book.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,12 +13,15 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 public class NoSecurityConfig {
+
+    private final CorsAccessConfiguration corsConfiguration;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors(cors ->
-                cors.configurationSource(request -> corsConfiguration())
+                cors.configurationSource(request -> corsConfiguration.corsConfiguration())
         );
 
         http.csrf(AbstractHttpConfigurer::disable)
@@ -29,13 +33,6 @@ public class NoSecurityConfig {
         return http.build();
     }
 
-    @Bean
-    CorsConfiguration corsConfiguration() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*"));
-        configuration.setAllowedMethods(List.of("*"));
-        configuration.setAllowedHeaders(List.of("*"));
-        return configuration;
-    }
+
 
 }
