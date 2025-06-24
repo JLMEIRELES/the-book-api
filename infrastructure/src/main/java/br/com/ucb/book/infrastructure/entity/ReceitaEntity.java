@@ -19,6 +19,7 @@ public class ReceitaEntity extends Auditable {
 
     private String nome;
 
+    @Column(columnDefinition = "TEXT")
     private String descricao;
 
     @ManyToOne

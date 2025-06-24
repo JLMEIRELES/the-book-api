@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Order(1)
 @RequiredArgsConstructor
@@ -32,8 +33,15 @@ public class SecurityConfig {
 
     private final PasswordEncoderConfig passwordEncoderConfig;
 
+    private final CorsAccessConfiguration corsConfiguration;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http.cors(cors ->
+                cors.configurationSource(request -> corsConfiguration.corsConfiguration())
+        );
+
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(auth ->
                 auth.requestMatchers("/api/**")
