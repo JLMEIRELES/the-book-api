@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class FieldErrorResponse {
+
     private String campo;
     private String mensagem;
 }

@@ -1,6 +1,7 @@
 package br.com.ucb.book.infrastructure.adapter;
 
 import br.com.ucb.book.domain.exception.ConflictException;
+import br.com.ucb.book.domain.messages.Messages;
 import br.com.ucb.book.domain.model.Usuario;
 import br.com.ucb.book.domain.persistence.UsuarioPersistence;
 import br.com.ucb.book.infrastructure.entity.UsuarioEntity;
@@ -15,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,13 +35,15 @@ public class UsuarioJpaAdapter implements UsuarioPersistence, UserDetailsService
     @SneakyThrows
     @Transactional
     public Usuario criar(Usuario usuario) {
-        usuarioRepository.findByDocumento(usuario.getDocumento()).ifPresent(usuarioEntity -> {
-            throw new ConflictException("Já existe usuário com documento '%s'".formatted(usuarioEntity.getDocumento()));
-        });
-        usuarioRepository.findByUsername(usuario.getEmail()).ifPresent(usuarioEntity -> {
-            throw new ConflictException("Já existe usuário com email '%s'".formatted(usuarioEntity.getEmail()));
+        Optional<UsuarioEntity> usuarioEncontrado = usuarioRepository.findByDocumento(usuario.getDocumento());
+        String field = "documento";
+        if (usuarioEncontrado.isEmpty()) {
+            field = "email";
+            usuarioEncontrado = usuarioRepository.findByUsername(usuario.getEmail());
         }
-        );
+        if (usuarioEncontrado.isPresent()) {
+            throw new ConflictException(Messages.USUARIO_EXISTENTE, field);
+        }
         UsuarioEntity entity = usuarioEntityMapper.toEntity(usuario);
         UsuarioEntity savedEntity = usuarioRepository.save(entity);
         emailService.enviarConfirmacaoEmail(savedEntity, jwtService.generateTokenForEmail(savedEntity));
