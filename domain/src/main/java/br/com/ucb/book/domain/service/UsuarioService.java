@@ -21,4 +21,8 @@ public class UsuarioService {
     public String login(Usuario usuario) {
         return authenticationProvider.autenticar(usuario);
     }
+
+    public Usuario findById(Long id) {
+        return usuarioPersistence.findById(id);
+    }
 }

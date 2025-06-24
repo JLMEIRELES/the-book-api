@@ -36,6 +36,14 @@ public class UsuarioJpaAdapter implements UsuarioPersistence, UserDetailsService
     }
 
     @Override
+    public Usuario findById(Long id) {
+        return usuarioEntityMapper.toModel(usuarioRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não identificado"))
+        );
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
