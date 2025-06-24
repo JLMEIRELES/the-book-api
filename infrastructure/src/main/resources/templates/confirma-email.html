@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmação de Cadastro</title>
+</head>
+<body>
+<p>Olá, <strong th:text="${nome}">Usuário</strong>!</p>
+
+<p>Confirme seu e-mail clicando no botão abaixo:</p>
+
+<p>
+    <a th:href="@{'http://localhost:8080/permitted/email/confirma-email?token=' + ${token}}"
+       style="display: inline-block;
+              padding: 12px 24px;
+              background-color: #28a745;
+              color: white;
+              text-decoration: none;
+              border-radius: 6px;
+              font-weight: bold;">
+        Confirmar Conta
+    </a>
+</p>
+
+<p>Este link é válido por 24 horas.</p>
+</body>
+</html>

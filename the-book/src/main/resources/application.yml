@@ -31,6 +31,25 @@ spring:
         jwt:
           secret-key: sZYdRAQgSmSIssP2fjrkT8mU4fvXPNTSBhBeqkievVg=
           jwt-algorithms: HS256
+        email-jwt:
+          secret-key: aWQZck1zPvQvLyAXmt2jAhEQm+cUBGuhhKMzJ1mfOLw=
+          jwt-algorithms: HS256
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: thebookjoaa@gmail.com
+    password: tgohydhnzrsqazlq
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+    default-encoding: UTF-8
 
 info:
   project:

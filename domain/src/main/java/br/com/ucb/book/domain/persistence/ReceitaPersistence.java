@@ -1,6 +1,5 @@
 package br.com.ucb.book.domain.persistence;
 
-
 import br.com.ucb.book.domain.model.Receita;
 
 import java.util.List;

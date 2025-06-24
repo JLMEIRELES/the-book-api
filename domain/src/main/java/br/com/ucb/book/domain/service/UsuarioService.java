@@ -25,4 +25,8 @@ public class UsuarioService {
     public Usuario findById(Long id) {
         return usuarioPersistence.findById(id);
     }
+
+    public void confirmaEmail(Long idUsuario) {
+        authenticationProvider.confirmaEmail(idUsuario);
+    }
 }

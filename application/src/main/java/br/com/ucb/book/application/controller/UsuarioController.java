@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,4 +25,10 @@ public class UsuarioController {
         return usuarioDtoMapper.toResponse(usuarioService.findById(token.getClaim("id")));
     }
 
+    @PostMapping("/confirma-email")
+    @ResponseStatus(HttpStatus.OK)
+    public void confirmaEmail(Authentication authentication) {
+        Jwt token = (Jwt) authentication.getPrincipal();
+        usuarioService.confirmaEmail(token.getClaim("id"));
+    }
 }

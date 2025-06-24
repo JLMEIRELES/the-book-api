@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmação de Conta</title>
+</head>
+<body>
+<h2>Confirmação de E-mail</h2>
+
+<p>Clique no botão abaixo para confirmar sua conta:</p>
+
+<button onclick="confirmarConta()" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; font-size: 16px;">
+    Confirmar Conta
+</button>
+
+<p id="mensagem" style="margin-top: 20px; font-weight: bold;"></p>
+
+<script>
+    const token = '[[${token}]]';
+
+    function confirmarConta() {
+      fetch('/api/usuario/confirma-email', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          document.getElementById('mensagem').innerText = 'Conta confirmada com sucesso!';
+        } else {
+          document.getElementById('mensagem').innerText = 'Token inválido ou expirado.';
+        }
+      })
+      .catch(() => {
+        document.getElementById('mensagem').innerText = 'Erro ao confirmar conta.';
+      });
+    }
+</script>
+</body>
+</html>
