@@ -7,6 +7,7 @@ import lombok.Data;
 @Builder
 public class Receita {
 
+    private Long id;
     private String nome;
     private String descricao;
     private Long usuarioId;

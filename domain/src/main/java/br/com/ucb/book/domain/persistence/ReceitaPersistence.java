@@ -9,4 +9,6 @@ public interface ReceitaPersistence {
     Receita criar(Receita receita);
 
     List<Receita> getByUsuarioId(Long usuarioId);
+
+    Receita getReceitaById(Long usuarioId, Long receitaId);
 }

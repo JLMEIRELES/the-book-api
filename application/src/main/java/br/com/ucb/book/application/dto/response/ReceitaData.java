@@ -9,6 +9,8 @@ import lombok.Data;
 @Builder
 public class ReceitaData {
 
+    private Long id;
+
     @JsonProperty("titulo")
     private String nome;
 

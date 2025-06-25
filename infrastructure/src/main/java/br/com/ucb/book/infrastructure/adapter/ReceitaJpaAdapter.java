@@ -1,5 +1,8 @@
 package br.com.ucb.book.infrastructure.adapter;
 
+import br.com.ucb.book.domain.exception.NotFoundException;
+import br.com.ucb.book.domain.exception.UnauthorizedException;
+import br.com.ucb.book.domain.messages.Messages;
 import br.com.ucb.book.domain.model.Receita;
 import br.com.ucb.book.domain.persistence.ReceitaPersistence;
 import br.com.ucb.book.infrastructure.entity.ReceitaEntity;
@@ -41,5 +44,19 @@ public class ReceitaJpaAdapter implements ReceitaPersistence {
                 .stream()
                 .map(receitaEntityMapper::toModel)
                 .toList();
+    }
+
+    @Override
+    public Receita getReceitaById(Long usuarioId, Long receitaId) {
+        ReceitaEntity receitaEntity = usuarioRepository.findByReceitaId(receitaId)
+                .map(UsuarioEntity::getReceitas)
+                .flatMap(receitas -> receitas.stream().findFirst())
+                .orElseThrow(() -> new NotFoundException(Messages.RECEITA_NAO_ENCONTRADA.formatted(receitaId)));
+
+        if (!receitaEntity.getUsuario().getId().equals(usuarioId)) {
+            throw new UnauthorizedException();
+        }
+
+        return receitaEntityMapper.toModel(receitaEntity);
     }
 }

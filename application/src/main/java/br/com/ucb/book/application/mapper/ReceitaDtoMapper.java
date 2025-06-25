@@ -14,6 +14,8 @@ public interface ReceitaDtoMapper {
 
     Receita toModel(ReceitaRequest receitaRequest, Long usuarioId);
 
+    ReceitaData toData(Receita receita);
+
     List<ReceitaData> toResponse(List<Receita> receitas);
 
     default ReceitasResponse receitasToReceitasResponse(List<Receita> receitas) {

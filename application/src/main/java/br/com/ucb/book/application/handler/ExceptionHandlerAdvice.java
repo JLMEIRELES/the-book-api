@@ -1,9 +1,12 @@
 package br.com.ucb.book.application.handler;
 
 import br.com.ucb.book.domain.exception.ConflictException;
+import br.com.ucb.book.domain.exception.NotFoundException;
+import br.com.ucb.book.domain.exception.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,6 +61,39 @@ public class ExceptionHandlerAdvice {
                 .error("Ocorreu um conflito ao processar requisição")
                 .details(ex.getMessage())
                 .fieldErrors(fieldErrors)
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(UnauthorizedException.class)
+    public ErrorResponse handleUnauthorizedException(UnauthorizedException ex) {
+        log.error("handleUnauthorizedException", ex);
+        return ErrorResponse.builder()
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .error("Unauthorized")
+                .details(ex.getMessage())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ErrorResponse handleNotFoundException(NotFoundException ex) {
+        log.error("handleNotFoundException", ex);
+        return ErrorResponse.builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .error("Não encontrado")
+                .details(ex.getMessage())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(DisabledException.class)
+    public ErrorResponse handleDisabledException(DisabledException ex) {
+        log.error("handleDisableException", ex);
+        return ErrorResponse.builder()
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .error("Usuário não confirmou email")
+                .details(ex.getMessage())
                 .build();
     }
 }

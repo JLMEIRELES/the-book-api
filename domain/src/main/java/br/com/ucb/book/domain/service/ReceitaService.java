@@ -20,4 +20,8 @@ public class ReceitaService {
     public List<Receita> getRecetasByUsuarioId(Long usuarioId) {
         return receitaPersistence.getByUsuarioId(usuarioId);
     }
+
+    public Receita getReceitaById(Long userId, Long receitaId) {
+        return receitaPersistence.getReceitaById(userId, receitaId);
+    }
 }
