@@ -1,0 +1,2 @@
+ALTER TABLE receita
+ADD COLUMN categoria VARCHAR(50);

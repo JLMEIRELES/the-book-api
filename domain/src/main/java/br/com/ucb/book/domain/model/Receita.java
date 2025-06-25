@@ -10,4 +10,5 @@ public class Receita {
     private String nome;
     private String descricao;
     private Long usuarioId;
+    private Categoria categoria;
 }

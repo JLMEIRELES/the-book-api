@@ -1,6 +1,8 @@
 package br.com.ucb.book.infrastructure.entity;
 
+import br.com.ucb.book.domain.model.Categoria;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -25,4 +27,8 @@ public class ReceitaEntity extends Auditable {
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private UsuarioEntity usuario;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Categoria categoria;
 }

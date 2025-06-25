@@ -4,7 +4,8 @@ import br.com.ucb.book.application.dto.request.ReceitaRequest;
 import br.com.ucb.book.application.dto.response.ReceitaData;
 import br.com.ucb.book.application.dto.response.ReceitasResponse;
 import br.com.ucb.book.domain.model.Receita;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 
 import java.util.List;
 

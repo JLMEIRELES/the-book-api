@@ -18,6 +18,5 @@ public class CorsAccessConfiguration {
         config.setAllowCredentials(true); // se estiver usando cookies ou Authorization
 
         return config;
-
     }
 }

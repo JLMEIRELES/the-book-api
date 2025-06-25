@@ -1,5 +1,7 @@
 package br.com.ucb.book.application.dto.response;
 
+import br.com.ucb.book.application.dto.request.CategoriaData;
+import br.com.ucb.book.domain.model.Categoria;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
@@ -13,4 +15,6 @@ public class ReceitaData {
 
     @JsonProperty("receita")
     private String descricao;
+
+    private CategoriaData categoria;
 }
