@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.List;
-
 @RestControllerAdvice
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
@@ -50,11 +48,16 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler(ConflictException.class)
     public ErrorResponse handleConflictException(ConflictException ex) {
         log.error("handleConflictException", ex);
+        var fieldErrors = ex.getCampos()
+                .stream()
+                .map(campo ->
+                        new FieldErrorResponse(campo, ex.getMessage())
+                ).toList();
         return ErrorResponse.builder()
                 .status(HttpStatus.CONFLICT.value())
                 .error("Ocorreu um conflito ao processar requisição")
                 .details(ex.getMessage())
-                .fieldErrors(List.of(new FieldErrorResponse(ex.getField(), ex.getMessage())))
+                .fieldErrors(fieldErrors)
                 .build();
     }
 }

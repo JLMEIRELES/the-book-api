@@ -1,5 +1,6 @@
 package br.com.ucb.book.application.dto.request;
 
+import br.com.ucb.book.application.dto.CategoriaData;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

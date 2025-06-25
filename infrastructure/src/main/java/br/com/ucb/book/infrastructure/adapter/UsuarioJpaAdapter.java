@@ -1,7 +1,6 @@
 package br.com.ucb.book.infrastructure.adapter;
 
 import br.com.ucb.book.domain.exception.ConflictException;
-import br.com.ucb.book.domain.messages.Messages;
 import br.com.ucb.book.domain.model.Usuario;
 import br.com.ucb.book.domain.persistence.UsuarioPersistence;
 import br.com.ucb.book.infrastructure.entity.UsuarioEntity;
@@ -17,6 +16,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,14 +36,17 @@ public class UsuarioJpaAdapter implements UsuarioPersistence, UserDetailsService
     @SneakyThrows
     @Transactional
     public Usuario criar(Usuario usuario) {
-        Optional<UsuarioEntity> usuarioEncontrado = usuarioRepository.findByDocumento(usuario.getDocumento());
-        String field = "documento";
-        if (usuarioEncontrado.isEmpty()) {
-            field = "email";
-            usuarioEncontrado = usuarioRepository.findByUsername(usuario.getEmail());
+        Optional<UsuarioEntity> usuarioPorDocumento = usuarioRepository.findByDocumento(usuario.getDocumento());
+        Optional<UsuarioEntity> usuarioPorEmail = usuarioRepository.findByUsername(usuario.getEmail());
+        List<String> campos = new ArrayList<>();
+        if (usuarioPorEmail.isPresent()) {
+            campos.add("email");
         }
-        if (usuarioEncontrado.isPresent()) {
-            throw new ConflictException(Messages.USUARIO_EXISTENTE, field);
+        if (usuarioPorDocumento.isPresent()) {
+            campos.add("documento");
+        }
+        if (!campos.isEmpty()) {
+            throw new ConflictException(campos);
         }
         UsuarioEntity entity = usuarioEntityMapper.toEntity(usuario);
         UsuarioEntity savedEntity = usuarioRepository.save(entity);

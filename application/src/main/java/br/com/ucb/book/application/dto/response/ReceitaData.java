@@ -1,7 +1,6 @@
 package br.com.ucb.book.application.dto.response;
 
-import br.com.ucb.book.application.dto.request.CategoriaData;
-import br.com.ucb.book.domain.model.Categoria;
+import br.com.ucb.book.application.dto.CategoriaData;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
