@@ -13,7 +13,7 @@ public class CorsAccessConfiguration {
     CorsConfiguration corsConfiguration() {
         CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
         config.setAllowedOrigins(List.of("http://localhost:4200"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH","DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*")); // ou: List.of("Content-Type", "Authorization")
         config.setAllowCredentials(true); // se estiver usando cookies ou Authorization
 
