@@ -4,9 +4,10 @@ import br.com.ucb.book.domain.model.Categoria;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
-@Builder
+@SuperBuilder
 @Table(name = "receita")
 @Getter
 @Setter

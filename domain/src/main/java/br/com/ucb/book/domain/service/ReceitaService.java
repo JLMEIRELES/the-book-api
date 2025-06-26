@@ -13,8 +13,8 @@ public class ReceitaService {
 
     private final ReceitaPersistence receitaPersistence;
 
-    public Receita criar(Receita receita) {
-        return receitaPersistence.criar(receita);
+    public void criar(Receita receita) {
+        receitaPersistence.salvar(receita);
     }
 
     public List<Receita> getRecetasByUsuarioId(Long usuarioId) {
@@ -23,5 +23,11 @@ public class ReceitaService {
 
     public Receita getReceitaById(Long userId, Long receitaId) {
         return receitaPersistence.getReceitaById(userId, receitaId);
+    }
+
+    public void editarReceita(Receita receita) {
+        Receita receitaEncontrada = getReceitaById(receita.getIdUsuario(), receita.getId());
+        receita.update(receitaEncontrada);
+        receitaPersistence.salvar(receita);
     }
 }

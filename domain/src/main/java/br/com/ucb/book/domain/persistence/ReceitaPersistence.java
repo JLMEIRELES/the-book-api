@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ReceitaPersistence {
 
-    Receita criar(Receita receita);
+    void salvar(Receita receita);
 
     List<Receita> getByUsuarioId(Long usuarioId);
 

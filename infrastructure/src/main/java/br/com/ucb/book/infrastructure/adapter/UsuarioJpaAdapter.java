@@ -54,6 +54,7 @@ public class UsuarioJpaAdapter implements UsuarioPersistence, UserDetailsService
         return usuarioEntityMapper.toModel(savedEntity);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Usuario findById(Long id) {
         return usuarioEntityMapper.toModel(usuarioRepository
@@ -62,6 +63,7 @@ public class UsuarioJpaAdapter implements UsuarioPersistence, UserDetailsService
         );
     }
 
+    @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return usuarioRepository.findByUsername(username)

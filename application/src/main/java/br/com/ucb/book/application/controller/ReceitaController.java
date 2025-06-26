@@ -4,6 +4,7 @@ import br.com.ucb.book.application.dto.request.ReceitaRequest;
 import br.com.ucb.book.application.dto.response.ReceitaData;
 import br.com.ucb.book.application.dto.response.ReceitasResponse;
 import br.com.ucb.book.application.mapper.ReceitaDtoMapper;
+import br.com.ucb.book.domain.model.Receita;
 import br.com.ucb.book.domain.service.ReceitaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,17 @@ public class ReceitaController {
         Jwt token =  (Jwt) authentication.getPrincipal();
         Long userId = token.getClaim("id");
         return receitaDtoMapper.toData(receitaService.getReceitaById(userId, idReceita));
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void editar(@PathVariable("id") Long idReceita,
+                       @RequestBody ReceitaRequest receitaRequest,
+                       Authentication authentication) {
+        Jwt token =  (Jwt) authentication.getPrincipal();
+        Long userId = token.getClaim("id");
+        Receita receita = receitaDtoMapper.toReceitaWithUsuario(receitaRequest, idReceita, userId);
+        receitaService.editarReceita(receita);
     }
 
     @GetMapping("/minhasReceitas")

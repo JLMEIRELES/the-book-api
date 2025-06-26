@@ -12,6 +12,7 @@ import br.com.ucb.book.infrastructure.repository.ReceitaRepository;
 import br.com.ucb.book.infrastructure.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,18 +27,20 @@ public class ReceitaJpaAdapter implements ReceitaPersistence {
 
     private final ReceitaEntityMapper receitaEntityMapper;
 
+    @Transactional
     @Override
-    public Receita criar(Receita receita) {
-        Optional<UsuarioEntity> usuarioOptional = usuarioRepository.findById(receita.getUsuarioId());
+    public void salvar(Receita receita) {
+        Optional<UsuarioEntity> usuarioOptional = usuarioRepository.findById(receita.getIdUsuario());
         if (usuarioOptional.isEmpty()) {
             throw new IllegalArgumentException("Usuário logado não existe");
         }
         UsuarioEntity usuario = usuarioOptional.get();
         ReceitaEntity receitaEntity = receitaEntityMapper.toEntity(receita);
         receitaEntity.setUsuario(usuario);
-        return receitaEntityMapper.toModel(receitaRepository.save(receitaEntity));
+        receitaRepository.save(receitaEntity);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Receita> getByUsuarioId(Long usuarioId) {
         return receitaRepository.findByUsuarioId(usuarioId)
@@ -46,6 +49,7 @@ public class ReceitaJpaAdapter implements ReceitaPersistence {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Receita getReceitaById(Long usuarioId, Long receitaId) {
         ReceitaEntity receitaEntity = usuarioRepository.findByReceitaId(receitaId)
