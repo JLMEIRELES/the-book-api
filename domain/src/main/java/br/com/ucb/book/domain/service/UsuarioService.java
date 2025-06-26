@@ -1,5 +1,7 @@
 package br.com.ucb.book.domain.service;
 
+import br.com.ucb.book.domain.exception.InvalidTokenException;
+import br.com.ucb.book.domain.exception.NotFoundException;
 import br.com.ucb.book.domain.model.Usuario;
 import br.com.ucb.book.domain.persistence.UsuarioPersistence;
 import br.com.ucb.book.domain.provider.AuthenticationProvider;
@@ -23,7 +25,11 @@ public class UsuarioService {
     }
 
     public Usuario findById(Long id) {
-        return usuarioPersistence.findById(id);
+        try {
+            return usuarioPersistence.findById(id);
+        } catch (NotFoundException ex) {
+            throw new InvalidTokenException();
+        }
     }
 
     public void confirmaEmail(Long idUsuario) {

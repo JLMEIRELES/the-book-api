@@ -30,7 +30,7 @@
 		<lombok.version>1.18.38</lombok.version>
 		<jacoco.version>0.8.10</jacoco.version>
 		<rider-junit5.version>1.42.0</rider-junit5.version>
-		<swagger.version>2.3.0</swagger.version>
+		<swagger.version>2.7.0-RC1</swagger.version>
 		<jackson.version>2.15.2</jackson.version>
 		<jjwt.version>0.12.5</jjwt.version>
 	</properties>

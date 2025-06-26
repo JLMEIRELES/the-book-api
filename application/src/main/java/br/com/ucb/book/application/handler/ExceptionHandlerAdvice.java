@@ -1,11 +1,13 @@
 package br.com.ucb.book.application.handler;
 
 import br.com.ucb.book.domain.exception.ConflictException;
+import br.com.ucb.book.domain.exception.InvalidTokenException;
 import br.com.ucb.book.domain.exception.NotFoundException;
 import br.com.ucb.book.domain.exception.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -96,4 +98,27 @@ public class ExceptionHandlerAdvice {
                 .details(ex.getMessage())
                 .build();
     }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(InvalidTokenException.class)
+    public ErrorResponse handleInvalidTokenException(InvalidTokenException ex) {
+        log.error("handleInvalidTokenException", ex);
+        return ErrorResponse.builder()
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .error("Unauthorized")
+                .details(ex.getMessage())
+                .build();
+    }
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(BadCredentialsException.class)
+    public ErrorResponse handleBadCredentialsException(BadCredentialsException ex) {
+        log.error("handleBadCredentialsException", ex);
+        return ErrorResponse.builder()
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .error("Bad Credentials")
+                .details(ex.getMessage())
+                .build();
+    }
+
+
 }

@@ -1,6 +1,8 @@
 package br.com.ucb.book.infrastructure.adapter;
 
 import br.com.ucb.book.domain.exception.ConflictException;
+import br.com.ucb.book.domain.exception.NotFoundException;
+import br.com.ucb.book.domain.messages.Messages;
 import br.com.ucb.book.domain.model.Usuario;
 import br.com.ucb.book.domain.persistence.UsuarioPersistence;
 import br.com.ucb.book.infrastructure.entity.UsuarioEntity;
@@ -59,7 +61,7 @@ public class UsuarioJpaAdapter implements UsuarioPersistence, UserDetailsService
     public Usuario findById(Long id) {
         return usuarioEntityMapper.toModel(usuarioRepository
                 .findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não identificado"))
+                .orElseThrow(() -> new NotFoundException(Messages.USUARIO_NAO_ENCONTRADO.formatted(id)))
         );
     }
 
