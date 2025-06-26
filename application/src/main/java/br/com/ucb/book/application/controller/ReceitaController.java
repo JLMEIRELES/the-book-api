@@ -29,17 +29,15 @@ public class ReceitaController {
             ReceitaRequest receitaRequest,
             Authentication authentication
     ) {
-        Jwt token =  (Jwt) authentication.getPrincipal();
-        Long userId = token.getClaim("id");
-        receitaService.criar(receitaDtoMapper.toModel(receitaRequest, userId));
+        Long idUsuario = getIdUsuario(authentication);
+        receitaService.criar(receitaDtoMapper.toModel(receitaRequest, idUsuario));
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ReceitaData getReceitaById(@PathVariable("id") Long idReceita, Authentication authentication) {
-        Jwt token =  (Jwt) authentication.getPrincipal();
-        Long userId = token.getClaim("id");
-        return receitaDtoMapper.toData(receitaService.getReceitaById(userId, idReceita));
+        Long idUsuario = getIdUsuario(authentication);
+        return receitaDtoMapper.toData(receitaService.getReceitaById(idUsuario, idReceita));
     }
 
     @PatchMapping("/{id}")
@@ -47,18 +45,27 @@ public class ReceitaController {
     public void editar(@PathVariable("id") Long idReceita,
                        @RequestBody ReceitaRequest receitaRequest,
                        Authentication authentication) {
-        Jwt token =  (Jwt) authentication.getPrincipal();
-        Long userId = token.getClaim("id");
-        Receita receita = receitaDtoMapper.toReceitaWithUsuario(receitaRequest, idReceita, userId);
+        Long idUsuario = getIdUsuario(authentication);
+        Receita receita = receitaDtoMapper.toReceitaWithUsuario(receitaRequest, idReceita, idUsuario);
         receitaService.editarReceita(receita);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletar(@PathVariable("id") Long idReceita, Authentication authentication) {
+        Long idUsuario = getIdUsuario(authentication);
+        receitaService.deletar(idReceita, idUsuario);
     }
 
     @GetMapping("/minhasReceitas")
     @ResponseStatus(HttpStatus.OK)
     public ReceitasResponse minhasReceitas(Authentication authentication) {
-        Jwt token =  (Jwt) authentication.getPrincipal();
-        Long userId = token.getClaim("id");
-        return receitaDtoMapper.receitasToReceitasResponse(receitaService.getRecetasByUsuarioId(userId));
+        Long idUsuario = getIdUsuario(authentication);
+        return receitaDtoMapper.receitasToReceitasResponse(receitaService.getRecetasByUsuarioId(idUsuario));
     }
 
+    private Long getIdUsuario(Authentication authentication) {
+        Jwt token =  (Jwt) authentication.getPrincipal();
+        return token.getClaim("id");
+    }
 }

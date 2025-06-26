@@ -63,4 +63,10 @@ public class ReceitaJpaAdapter implements ReceitaPersistence {
 
         return receitaEntityMapper.toModel(receitaEntity);
     }
+
+    @Override
+    public void deletar(Receita receita) {
+        ReceitaEntity receitaEntity = receitaEntityMapper.toEntity(receita);
+        receitaRepository.delete(receitaEntity);
+    }
 }

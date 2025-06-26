@@ -30,4 +30,9 @@ public class ReceitaService {
         receita.update(receitaEncontrada);
         receitaPersistence.salvar(receita);
     }
+
+    public void deletar(Long idReceita, Long idUsuario) {
+        Receita receitaEncontrada = getReceitaById(idUsuario, idReceita);
+        receitaPersistence.deletar(receitaEncontrada);
+    }
 }

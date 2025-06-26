@@ -11,4 +11,6 @@ public interface ReceitaPersistence {
     List<Receita> getByUsuarioId(Long usuarioId);
 
     Receita getReceitaById(Long usuarioId, Long receitaId);
+
+    void deletar(Receita receita);
 }
