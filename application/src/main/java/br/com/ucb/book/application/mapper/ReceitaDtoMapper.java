@@ -13,7 +13,7 @@ import java.util.List;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ReceitaDtoMapper {
 
-    Receita toModel(ReceitaRequest receitaRequest, Long usuarioId);
+    Receita toModel(ReceitaRequest receitaRequest, Long idUsuario);
 
     ReceitaData toData(Receita receita);
 
